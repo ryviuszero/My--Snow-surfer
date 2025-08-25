@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 moveVector;
         moveVector = moveAction.ReadValue<Vector2>();
-        print(moveVector);
+        // print(moveVector);
         // Debug.Log(moveVector);
         if (moveVector.x < 0)
         {
