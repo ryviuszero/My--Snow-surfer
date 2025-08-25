@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float boostSpeed = 20f;
 
     Vector2 moveVector;
+    bool canControlPlayer = true;
 
 
     InputAction moveAction;
@@ -23,13 +24,17 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
+        if (canControlPlayer)
+        {
+            RotationPlayer();
+            BoostPlayer();
+        }
 
     }
 
     void RotationPlayer()
     {
-        
+
         moveVector = moveAction.ReadValue<Vector2>();
         if (moveVector.x < 0)
         {
@@ -44,7 +49,7 @@ public class PlayerController : MonoBehaviour
     void BoostPlayer()
     {
 
-        if ( moveVector.y > 0)
+        if (moveVector.y > 0)
         {
             surfaceEffector2D.speed = boostSpeed;
         }
@@ -52,5 +57,10 @@ public class PlayerController : MonoBehaviour
         {
             surfaceEffector2D.speed = baseSpeed;
         }
+    }
+    
+    public void DisableControl()
+    {
+        canControlPlayer = false;
     }
 }
