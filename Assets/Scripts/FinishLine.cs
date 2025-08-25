@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class FinishLine : MonoBehaviour
 {
     [SerializeField] float reloadDelay = 2f;
+    [SerializeField] ParticleSystem finishEffect;
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -12,6 +13,7 @@ public class FinishLine : MonoBehaviour
         if (other.gameObject.layer == layerIndex)
         {
             // SceneManager.LoadScene(0);
+            finishEffect.Play();
             Invoke("ReloadScene", reloadDelay);
         }
     }
