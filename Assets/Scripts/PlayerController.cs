@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
         totalRotation += Mathf.Abs(currentRotation - previousRotation);
 
-        if (totalRotation >= 340 || totalRotation <= -340)
+        if (totalRotation > 360 || totalRotation < -360)
         {
             flipCount++;
             totalRotation = 0;
