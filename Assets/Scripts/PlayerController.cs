@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,17 +10,39 @@ public class PlayerController : MonoBehaviour
 
     Vector2 moveVector;
     bool canControlPlayer = true;
+    float previousRotation;
+    float totalRotation;
+    int flipCount;
 
 
     InputAction moveAction;
     Rigidbody2D myRigidbody2D;
     SurfaceEffector2D surfaceEffector2D;
+    ScoreManager scoreManager;
 
     void Start()
     {
         moveAction = InputSystem.actions.FindAction("Move");
         myRigidbody2D = GetComponent<Rigidbody2D>();
         surfaceEffector2D = FindFirstObjectByType<SurfaceEffector2D>();
+        scoreManager = FindFirstObjectByType<ScoreManager>();
+    }
+
+    void CalculateFlips()
+    {
+        float currentRotation = transform.rotation.eulerAngles.z;
+
+        totalRotation += Mathf.Abs(currentRotation - previousRotation);
+
+        if (totalRotation >= 340 || totalRotation <= -340)
+        {
+            flipCount++;
+            totalRotation = 0;
+            // Debug.Log("Flips: " + flipCount);
+            scoreManager.AddScore(100);
+        }
+
+        previousRotation = currentRotation;
     }
 
     void Update()
@@ -28,6 +51,7 @@ public class PlayerController : MonoBehaviour
         {
             RotationPlayer();
             BoostPlayer();
+            CalculateFlips();
         }
 
     }
