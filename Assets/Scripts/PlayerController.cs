@@ -82,9 +82,22 @@ public class PlayerController : MonoBehaviour
             surfaceEffector2D.speed = baseSpeed;
         }
     }
-    
+
     public void DisableControl()
     {
         canControlPlayer = false;
+    }
+
+    public void ActivatePowerup(PowerUpSO powerUp)
+    {
+        if (powerUp.GetPowerUpType() == "speed")
+        {
+            baseSpeed += powerUp.GetValueChange();
+            boostSpeed += powerUp.GetValueChange();
+        }
+        else if (powerUp.GetPowerUpType() == "torque")
+        {
+            torqueAmount += powerUp.GetValueChange();
+        }
     }
 }
