@@ -7,12 +7,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float torqueAmount = 1f;
     [SerializeField] float baseSpeed = 15f;
     [SerializeField] float boostSpeed = 20f;
+    [SerializeField] ParticleSystem powerupParticles;
 
     Vector2 moveVector;
     bool canControlPlayer = true;
     float previousRotation;
     float totalRotation;
-    int flipCount;
+    int activePowerupCount = 0;
 
 
     InputAction moveAction;
@@ -36,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
         if (totalRotation > 360 || totalRotation < -360)
         {
-            flipCount++;
+            // flipCount++;
             totalRotation = 0;
             // Debug.Log("Flips: " + flipCount);
             scoreManager.AddScore(100);
@@ -90,6 +91,8 @@ public class PlayerController : MonoBehaviour
 
     public void ActivatePowerup(PowerUpSO powerUp)
     {
+        powerupParticles.Play();
+        activePowerupCount++;
         if (powerUp.GetPowerUpType() == "speed")
         {
             baseSpeed += powerUp.GetValueChange();
@@ -103,6 +106,12 @@ public class PlayerController : MonoBehaviour
 
     public void DeactivatePowerup(PowerUpSO powerUp)
     {
+        activePowerupCount--;
+        if (activePowerupCount <= 0)
+        {
+            powerupParticles.Stop();
+            activePowerupCount = 0;
+        }
         if (powerUp.GetPowerUpType() == "speed")
         {
             baseSpeed -= powerUp.GetValueChange();

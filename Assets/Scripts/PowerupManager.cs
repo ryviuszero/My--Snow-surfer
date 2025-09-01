@@ -15,19 +15,23 @@ public class PowerupManager : MonoBehaviour
         timeLeft = powerUp.GetTime();
     }
 
-    void update()
+    void Update()
     {
-
+        CountdownTimer();
     }
 
     void CountdownTimer()
     {
         if (spriteRenderer.enabled == false)
         {
-            timeLeft -= Time.deltaTime;
-            if (timeLeft <= 0)
+            
+            if (timeLeft > 0)
             {
-                playerController.DeactivatePowerup(powerUp);    
+                timeLeft -= Time.deltaTime;
+                if (timeLeft < 0)
+                {
+                    playerController.DeactivatePowerup(powerUp); 
+                }
             }
         }
     }
